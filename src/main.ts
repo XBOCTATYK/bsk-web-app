@@ -71,10 +71,6 @@ async function getSearches() {
   } catch (e) {
     console.error(e)
   }
-
-  //document.getElementById('app')?.appendChild(createSearchItem('1', 'Google', 'https://google.com'))
-  //document.getElementById('app')?.appendChild(createSearchItem('2', 'Bing', 'https://bing.com'))
-  //document.getElementById('app')?.appendChild(createSearchItem('3', 'DuckDuckGo', 'https://duckduckgo.com'))
 }
 
 
