@@ -18,21 +18,53 @@ async function getSearches() {
   const app = await initFirebaseApp()
   const firestore = getFirestore(app)
 
-  const onDocRemove = (id: string) => {
-    deleteDoc(doc(firestore, COLLECTION_ID, id))
+  const onDocRemove = async (id: string) => {
+    await deleteDoc(doc(firestore, COLLECTION_ID, id))
+
+    window.location.reload()
   }
 
-  const onDocStop = (id: string) => {
-    updateDoc(doc(firestore, COLLECTION_ID, id), {
+  const onDocStop = async (id: string) => {
+    await updateDoc(doc(firestore, COLLECTION_ID, id), {
       active: false
     })
+    window.location.reload()
   }
 
-  const onRun = (id: string) => {
-    updateDoc(doc(firestore, COLLECTION_ID, id), {
+  const onRun = async (id: string) => {
+    await updateDoc(doc(firestore, COLLECTION_ID, id), {
       active: true
     })
+
+    window.location.reload()
   }
+
+  const getAndRenderDocs = async () => {
+    try {
+      const docs = await getDocs(collection(firestore, COLLECTION_ID))
+
+      docs.forEach(doc => {
+        const data = doc.data()
+        const {href, title, active} = data
+        const id = doc.id
+
+        document.getElementById('app')?.appendChild(
+          createSearchItem({
+            id,
+            title,
+            href,
+            active,
+            onStop: onDocStop,
+            onRemove: onDocRemove,
+            onRun
+          }))
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  await getAndRenderDocs()
 
   const addForm = document.getElementById('add-form') as HTMLFormElement
 
@@ -45,35 +77,14 @@ async function getSearches() {
         title: addForm.elements.title.value,
         active: true
       })
+      window.location.reload()
     } catch (e) {
       console.error(e)
     }
   })
 
-  try {
-    const docs = await getDocs(collection(firestore, COLLECTION_ID))
 
-    docs.forEach(doc => {
-      const data = doc.data()
-      const { href, title, active } = data
-      const id = doc.id
-
-      document.getElementById('app')?.appendChild(createSearchItem({
-        id,
-        title,
-        href,
-        active,
-        onStop: onDocStop,
-        onRemove: onDocRemove,
-        onRun
-      }))
-    })
-  } catch (e) {
-    console.error(e)
-  }
 }
-
-
 
 
 getSearches()

@@ -67,6 +67,7 @@ body {
   flex: 1;
   line-height: 1.5;
   padding: 5px 10px;
+
 }
 
 .add-form__label {
@@ -103,4 +104,13 @@ body {
 .searches {
   text-align: left;
   width: 100%;
+}
+
+.search-list__href {
+  display: block;
+  max-width: 600px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

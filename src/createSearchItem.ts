@@ -18,7 +18,7 @@ export function createSearchItem({
   const item = document.createElement('tr')
   item.dataset.id = id
   item.innerHTML = `<td>${title}</td>
-<td>${href}</td> 
+<td><a class="search-list__href" href="${href}" target="_blank">${href}</a></td> 
 ${active 
     ? `<td><button data-id="${id}" data-handler="stop" class="button">Stop</button></td>`
    : `<td><button data-id="${id}" data-handler="run" class="button">Run</button></td>`
